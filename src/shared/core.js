@@ -71,9 +71,25 @@ const S_A = /(%)([A-Za-z])/g;
 
 const MIDDLE_DOT = /([ ]*)([\u00b7\u2022\u2027])([ ]*)/g;
 
+const Spacing = {
+  SPACE: " ",
+  THREE_PER_EM_SPACE: "\u2004",
+  FOUR_PER_EM_SPACE: "\u2005",
+  SIX_PER_EM_SPACE: "\u2006",
+  THIN_SPACE: "\u2009",
+  HAIR_SPACE: "\u200A"
+}
+
+
 class Pangu {
-  constructor() {
-    this.version = '4.0.7';
+  constructor(spacing) {
+    this.version = '5.0.0';
+    if (spacing) this.setSpacing(spacing)
+    else this.SP = Spacing.SPACE
+  }
+
+  setSpacing(spacing) {
+    this.SP = spacing
   }
 
   convertToFullwidth(symbols) {
@@ -125,40 +141,40 @@ class Pangu {
       return `${cjk}${fullwidthSymbols}`;
     });
 
-    newText = newText.replace(DOTS_CJK, '$1 $2');
+    newText = newText.replace(DOTS_CJK, `$1${this.SP}$2`);
     newText = newText.replace(FIX_CJK_COLON_ANS, '$1：$2');
 
-    newText = newText.replace(CJK_QUOTE, '$1 $2');
-    newText = newText.replace(QUOTE_CJK, '$1 $2');
+    newText = newText.replace(CJK_QUOTE, `$1${this.SP}$2`);
+    newText = newText.replace(QUOTE_CJK, `$1${this.SP}$2`);
     newText = newText.replace(FIX_QUOTE_ANY_QUOTE, '$1$2$3');
 
-    newText = newText.replace(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, '$1 $2');
-    newText = newText.replace(SINGLE_QUOTE_CJK, '$1 $2');
+    newText = newText.replace(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, `$1${this.SP}$2`);
+    newText = newText.replace(SINGLE_QUOTE_CJK, `$1${this.SP}$2`);
     newText = newText.replace(FIX_POSSESSIVE_SINGLE_QUOTE, "$1's"); // eslint-disable-line quotes
 
-    newText = newText.replace(HASH_ANS_CJK_HASH, '$1 $2$3$4 $5');
-    newText = newText.replace(CJK_HASH, '$1 $2');
-    newText = newText.replace(HASH_CJK, '$1 $3');
+    newText = newText.replace(HASH_ANS_CJK_HASH, `$1${this.SP}$2$3$4${this.SP}$5`);
+    newText = newText.replace(CJK_HASH, `$1${this.SP}$2`);
+    newText = newText.replace(HASH_CJK, `$1${this.SP}$3`);
 
-    newText = newText.replace(CJK_OPERATOR_ANS, '$1 $2 $3');
-    newText = newText.replace(ANS_OPERATOR_CJK, '$1 $2 $3');
+    newText = newText.replace(CJK_OPERATOR_ANS, `$1${this.SP}$2${this.SP}$3`);
+    newText = newText.replace(ANS_OPERATOR_CJK, `$1${this.SP}$2${this.SP}$3`);
 
     newText = newText.replace(FIX_SLASH_AS, '$1$2');
     newText = newText.replace(FIX_SLASH_AS_SLASH, '$1$2$3');
 
-    newText = newText.replace(CJK_LEFT_BRACKET, '$1 $2');
-    newText = newText.replace(RIGHT_BRACKET_CJK, '$1 $2');
+    newText = newText.replace(CJK_LEFT_BRACKET, `$1${this.SP}$2`);
+    newText = newText.replace(RIGHT_BRACKET_CJK, `$1${this.SP}$2`);
     newText = newText.replace(FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1$2$3');
-    newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1 $2$3$4');
-    newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, '$1$2$3 $4');
+    newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, `$1${this.SP}$2$3$4`);
+    newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, `$1$2$3${this.SP}$4`);
 
-    newText = newText.replace(AN_LEFT_BRACKET, '$1 $2');
-    newText = newText.replace(RIGHT_BRACKET_AN, '$1 $2');
+    newText = newText.replace(AN_LEFT_BRACKET, `$1${this.SP}$2`);
+    newText = newText.replace(RIGHT_BRACKET_AN, `$1${this.SP}$2`);
 
-    newText = newText.replace(CJK_ANS, '$1 $2');
-    newText = newText.replace(ANS_CJK, '$1 $2');
+    newText = newText.replace(CJK_ANS, `$1${this.SP}$2`);
+    newText = newText.replace(ANS_CJK, `$1${this.SP}$2`);
 
-    newText = newText.replace(S_A, '$1 $2');
+    newText = newText.replace(S_A, `$1${this.SP}$2`);
 
     newText = newText.replace(MIDDLE_DOT, '・');
 
@@ -168,15 +184,28 @@ class Pangu {
     return newText;
   }
 
-  spacingText(text, callback = () => {}) {
+  // use overload to implement Promise calling. 
+  spacingText(text, callback) {
     let newText;
-    try {
-      newText = this.spacing(text);
-    } catch (err) {
-      callback(err);
-      return;
+    if (callback) {
+      try {
+        newText = this.spacing(text);
+      }
+      catch (err) {
+        callback(err);
+        return;
+      }
+      callback(null, newText);
     }
-    callback(null, newText);
+    else return new Promise<string>((resolve, reject) => {
+      try {
+        let newText = this.spacing(text)
+        resolve(newText)
+      }
+      catch (err) {
+        reject(err)
+      }
+    })
   }
 
   spacingTextSync(text) {

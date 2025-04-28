@@ -609,15 +609,29 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   var ANS_CJK = new RegExp("([A-Za-z\u0370-\u03FF0-9~\\$%\\^&\\*\\-\\+\\\\=\\|/!;:,\\.\\?\xA1-\xFF\u2150-\u218F\u2700\u2014\u27BF])([".concat(CJK, "])"), 'g');
   var S_A = /(%)([A-Za-z])/g;
   var MIDDLE_DOT = /([ ]*)([\u00b7\u2022\u2027])([ ]*)/g;
+  var Spacing = {
+    SPACE: " ",
+    THREE_PER_EM_SPACE: "\u2004",
+    FOUR_PER_EM_SPACE: "\u2005",
+    SIX_PER_EM_SPACE: "\u2006",
+    THIN_SPACE: "\u2009",
+    HAIR_SPACE: "\u200A"
+  };
 
   var Pangu = function () {
-    function Pangu() {
+    function Pangu(spacing) {
       _classCallCheck(this, Pangu);
 
-      this.version = '4.0.7';
+      this.version = '5.0.0';
+      if (spacing) this.setSpacing(spacing);else this.SP = Spacing.SPACE;
     }
 
     _createClass(Pangu, [{
+      key: "setSpacing",
+      value: function setSpacing(spacing) {
+        this.SP = spacing;
+      }
+    }, {
       key: "convertToFullwidth",
       value: function convertToFullwidth(symbols) {
         return symbols.replace(/~/g, '～').replace(/!/g, '！').replace(/;/g, '；').replace(/:/g, '：').replace(/,/g, '，').replace(/\./g, '。').replace(/\?/g, '？');
@@ -644,48 +658,59 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           var fullwidthSymbols = self.convertToFullwidth(symbols);
           return "".concat(cjk).concat(fullwidthSymbols);
         });
-        newText = newText.replace(DOTS_CJK, '$1 $2');
+        newText = newText.replace(DOTS_CJK, "$1".concat(this.SP, "$2"));
         newText = newText.replace(FIX_CJK_COLON_ANS, '$1：$2');
-        newText = newText.replace(CJK_QUOTE, '$1 $2');
-        newText = newText.replace(QUOTE_CJK, '$1 $2');
+        newText = newText.replace(CJK_QUOTE, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(QUOTE_CJK, "$1".concat(this.SP, "$2"));
         newText = newText.replace(FIX_QUOTE_ANY_QUOTE, '$1$2$3');
-        newText = newText.replace(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, '$1 $2');
-        newText = newText.replace(SINGLE_QUOTE_CJK, '$1 $2');
+        newText = newText.replace(CJK_SINGLE_QUOTE_BUT_POSSESSIVE, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(SINGLE_QUOTE_CJK, "$1".concat(this.SP, "$2"));
         newText = newText.replace(FIX_POSSESSIVE_SINGLE_QUOTE, "$1's");
-        newText = newText.replace(HASH_ANS_CJK_HASH, '$1 $2$3$4 $5');
-        newText = newText.replace(CJK_HASH, '$1 $2');
-        newText = newText.replace(HASH_CJK, '$1 $3');
-        newText = newText.replace(CJK_OPERATOR_ANS, '$1 $2 $3');
-        newText = newText.replace(ANS_OPERATOR_CJK, '$1 $2 $3');
+        newText = newText.replace(HASH_ANS_CJK_HASH, "$1".concat(this.SP, "$2$3$4").concat(this.SP, "$5"));
+        newText = newText.replace(CJK_HASH, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(HASH_CJK, "$1".concat(this.SP, "$3"));
+        newText = newText.replace(CJK_OPERATOR_ANS, "$1".concat(this.SP, "$2").concat(this.SP, "$3"));
+        newText = newText.replace(ANS_OPERATOR_CJK, "$1".concat(this.SP, "$2").concat(this.SP, "$3"));
         newText = newText.replace(FIX_SLASH_AS, '$1$2');
         newText = newText.replace(FIX_SLASH_AS_SLASH, '$1$2$3');
-        newText = newText.replace(CJK_LEFT_BRACKET, '$1 $2');
-        newText = newText.replace(RIGHT_BRACKET_CJK, '$1 $2');
+        newText = newText.replace(CJK_LEFT_BRACKET, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(RIGHT_BRACKET_CJK, "$1".concat(this.SP, "$2"));
         newText = newText.replace(FIX_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1$2$3');
-        newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, '$1 $2$3$4');
-        newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, '$1$2$3 $4');
-        newText = newText.replace(AN_LEFT_BRACKET, '$1 $2');
-        newText = newText.replace(RIGHT_BRACKET_AN, '$1 $2');
-        newText = newText.replace(CJK_ANS, '$1 $2');
-        newText = newText.replace(ANS_CJK, '$1 $2');
-        newText = newText.replace(S_A, '$1 $2');
+        newText = newText.replace(ANS_CJK_LEFT_BRACKET_ANY_RIGHT_BRACKET, "$1".concat(this.SP, "$2$3$4"));
+        newText = newText.replace(LEFT_BRACKET_ANY_RIGHT_BRACKET_ANS_CJK, "$1$2$3".concat(this.SP, "$4"));
+        newText = newText.replace(AN_LEFT_BRACKET, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(RIGHT_BRACKET_AN, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(CJK_ANS, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(ANS_CJK, "$1".concat(this.SP, "$2"));
+        newText = newText.replace(S_A, "$1".concat(this.SP, "$2"));
         newText = newText.replace(MIDDLE_DOT, '・');
         return newText;
       }
     }, {
       key: "spacingText",
-      value: function spacingText(text) {
-        var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+      value: function spacingText(text, callback) {
+        var _this = this;
+
         var newText;
 
-        try {
-          newText = this.spacing(text);
-        } catch (err) {
-          callback(err);
-          return;
-        }
+        if (callback) {
+          try {
+            newText = this.spacing(text);
+          } catch (err) {
+            callback(err);
+            return;
+          }
 
-        callback(null, newText);
+          callback(null, newText);
+        } else return new Promise() < string > function (resolve, reject) {
+          try {
+            var _newText = _this.spacing(text);
+
+            resolve(_newText);
+          } catch (err) {
+            reject(err);
+          }
+        };
       }
     }, {
       key: "spacingTextSync",

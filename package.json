@@ -17,20 +17,20 @@
     "ocd",
     "paranoia"
   ],
-  "version": "4.0.7",
+  "version": "5.0.0",
   "author": {
     "name": "Vinta Chen",
     "email": "vinta.chen@gmail.com",
     "url": "https://vinta.ws/code/"
   },
   "license": "MIT",
-  "homepage": "https://github.com/vinta/pangu.js",
+  "homepage": "https://github.com/Dustin-Jiang/pangu.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/vinta/pangu.js.git"
+    "url": "git://github.com/Dustin-Jiang/pangu.js.git"
   },
   "bugs": {
-    "url": "https://github.com/vinta/pangu.js/issues"
+    "url": "https://github.com/Dustin-Jiang/pangu.js/issues"
   },
   "main": "./dist/node/index.js",
   "browser": "./dist/browser/pangu.js",
