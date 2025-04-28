@@ -155,3 +155,4 @@ var pangu = new Pangu();
 module.exports = pangu;
 module.exports.default = pangu;
 module.exports.Pangu = Pangu;
+module.exports.Spacing = Spacing;

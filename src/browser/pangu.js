@@ -1,4 +1,4 @@
-const { Pangu } = require('../shared/core');
+const { Pangu, Spacing } = require('../shared/core');
 
 function once(func) {
   let executed = false;
@@ -50,6 +50,8 @@ class BrowserPangu extends Pangu {
     this.spaceSensitiveTags = /^(a|del|pre|s|strike|u)$/i;
 
     this.isAutoSpacingPageExecuted = false;
+
+    this.SPACING = Spacing
 
     // TODO
     // this.ignoredTags adds iframe|pangu

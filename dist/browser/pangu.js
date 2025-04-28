@@ -1,8 +1,8 @@
 /*!
  * pangu.js
  * --------
- * @version: 4.0.7
- * @homepage: https://github.com/vinta/pangu.js
+ * @version: 5.0.0
+ * @homepage: https://github.com/Dustin-Jiang/pangu.js
  * @license: MIT
  * @author: Vinta Chen <vinta.chen@gmail.com> (https://github.com/vinta)
  */
@@ -135,7 +135,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
   var _require = __webpack_require__(1),
-      Pangu = _require.Pangu;
+      Pangu = _require.Pangu,
+      Spacing = _require.Spacing;
 
   function once(func) {
     var _this = this,
@@ -195,6 +196,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       _this3.spaceLikeTags = /^(br|hr|i|img|pangu)$/i;
       _this3.spaceSensitiveTags = /^(a|del|pre|s|strike|u)$/i;
       _this3.isAutoSpacingPageExecuted = false;
+      _this3.SPACING = Spacing;
       return _this3;
     }
 
@@ -726,6 +728,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   module.exports = pangu;
   module.exports.default = pangu;
   module.exports.Pangu = Pangu;
+  module.exports.Spacing = Spacing;
 });
 
 /***/ })
